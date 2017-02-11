@@ -5,34 +5,42 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
-/**
- *
- * @author Jackson McClintock
- */
 public class IOUtils {
     
     Socket socket;
     InputStream is;
     OutputStream os;
     
-    public IOUtils(Socket socket) throws IOException{
+    public IOUtils(Socket socket) throws IOException {
         this.socket = socket;
         is = socket.getInputStream();
         os = socket.getOutputStream();
     }
-    public synchronized byte read() throws IOException{
+
+    /**
+     *
+     * @return The Single byte read
+     * @throws IOException
+     */
+    public synchronized byte read() throws IOException {
         return (byte) is.read();
     }
-    public synchronized char readChar() throws IOException{
-        byte[] bytes = new byte[2];
-        bytes[0] = (byte) is.read();
-        bytes[1] = (byte) is.read();
-        return Utils.byteArrayToString(bytes).charAt(0);
-    }
-    public int available() throws IOException{
+
+    /**
+     *
+     * @return Number of bytes available to read
+     * @throws IOException
+     */
+    public int available() throws IOException {
         return is.available();
     }
-    public synchronized void write(String write_string) throws IOException{
-        os.write(Utils.stringToByteArray(write_string));
+
+    /**
+     *
+     * @param data  byte[] of data to write
+     * @throws IOException
+     */
+    public synchronized void write(byte[] data) throws IOException {
+        os.write(data);
     }
 }
